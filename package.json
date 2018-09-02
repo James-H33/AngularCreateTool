@@ -2,12 +2,15 @@
   "name": "act",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/js/script.js",
   "scripts": {
     "start": "tsc"
   },
   "preferGlobal": true,
-  "bin": "./script.js",
+  "bin": {
+    "angular-create-tool": "./dist/js/script.js"
+  },
+  "preferGlobal": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
