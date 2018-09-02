@@ -1,4 +1,4 @@
-import { File } from '../../Filels/app/File';
+import { File } from './File';
 import { CommandInstruction } from '../models/CommandInstruction.model';
 
 export class ComponentCreator {

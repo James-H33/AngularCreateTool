@@ -8,9 +8,6 @@ export class CommandReader {
   constructor() { }
 
   public isValidCommands() {
-    console.log('User Commands: ', this.userCommands);
-    console.log('Base Commands: ', this.baseCommands);
-
     return this.userCommands.length === 3;
   }
 
@@ -30,7 +27,6 @@ export class CommandReader {
     const name = this.userCommands[1];
   
     if (name) {
-      console.log(name);
       return name;
     } else {
       throw Error('No name found');

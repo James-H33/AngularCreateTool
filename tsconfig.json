@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "outDir": "./dist/js/",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { CommandReader } from './models/app/CommandReader';
-import { ComponentCreator } from './models/app/ComponentCreater';
+import { CommandReader } from './app/CommandReader';
+import { ComponentCreator } from './app/ComponentCreater';
 
 class Main {
   public commandReader: CommandReader;

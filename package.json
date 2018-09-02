@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc -watch script.ts"
+    "start": "tsc"
   },
   "preferGlobal": true,
   "bin": "./script.js",
