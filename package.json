@@ -2,7 +2,7 @@
   "name": "act",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/js/script.js",
+  "main": "james-create-tool",
   "scripts": {
     "start": "tsc"
   },

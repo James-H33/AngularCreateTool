@@ -5,7 +5,7 @@ export class File {
   constructor() { }
 
   public exists(path: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       FileSystem.exists(Path.resolve(path), (exists: boolean) => {
         resolve(exists);
       }); 
@@ -24,16 +24,16 @@ export class File {
     });
   }
 
-  public readDir(path) {
+  public readDir(path: string) {
     return new Promise((resolve, reject) => { 
-      FileSystem.readdir(Path.resolve(path), (err, files: string[]) => {
+      FileSystem.readdir(path, (err, files: string[]) => {
         if (err) {
           console.log(err);
           reject(err);
         }
-  
-        return resolve(files);
-      })
+
+        resolve(files);
+      });
     });
   }
 
@@ -41,7 +41,6 @@ export class File {
     return new Promise((resolve, reject) => {
       FileSystem.writeFile(Path.resolve(path), content, 'utf-8', (err) => {
         if (err) {
-          // console.log('THIS IS A ERROR: ', err);
           reject(err);
         }
   

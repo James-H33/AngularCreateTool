@@ -1,19 +1,15 @@
+import * as Path from 'path';
 import { File } from './File';
 import { CommandInstruction } from '../models/CommandInstruction.model';
 
 export class ComponentCreator {
   public instructions: CommandInstruction;
   public fileSys: File = new File();
-  private _baseComponentPath: string = './angular-component/';
+  private _baseComponentPath: string = Path.resolve(__dirname, '../../..', 'resources/angular-component');
 
   constructor(cmdInstruction: CommandInstruction) { 
     this.instructions = cmdInstruction;
     this.createComponent();
-  }
-
-  public isSpecFile(splitFileName: string[]) {
-    const spec = splitFileName[splitFileName.length - 2];
-    return spec && spec === 'spec';
   }
 
   public getDefaultComponentDirectory() {
@@ -21,18 +17,33 @@ export class ComponentCreator {
   }
   
   public getFileExtension(fileName: string) {
-    const splitFileName = fileName.split('.');
-    const specFile = this.isSpecFile(splitFileName);
-  
-    if (specFile) {
-      return '.spec.ts'; 
-    } else {
-      return '.' + splitFileName[splitFileName.length - 1];
-    }
+    const index = fileName.indexOf('.');
+    return fileName.substr(index, fileName.length);
   }
 
   private getRequiredDirectories() {
     return this.instructions.path.split('/').filter(x => x !== '.');
+  }
+
+  private updateComponentFileContents(fileContents: string) {
+    const updateFileContents = this.updateComponentNameInFile(this.updatePathsAndSelector(fileContents));
+    return updateFileContents;
+  }
+
+  private updateComponentNameInFile(contents: string) {
+    const componentClassName = this.createComponentClassName();
+    return contents.split('AngularComponent').join(componentClassName);
+  }
+
+  private createComponentClassName() {
+    return this.instructions.name
+      .split('-')
+      .map((s) => s.charAt(0).toUpperCase() + s.substr(1, s.length))
+      .join('');
+  }
+
+  private updatePathsAndSelector(contents: string) {
+    return contents.split('angular-component').join(this.instructions.name);
   }
 
   public async createComponentDirectory() {
@@ -65,17 +76,20 @@ export class ComponentCreator {
 
     files.forEach(async (file: string) => {
       try {
-        const fileContents = await this.fileSys.readFile(`${this._baseComponentPath}/${file}`);
+        let fileContents = await this.fileSys.readFile(`${this._baseComponentPath}/${file}`);
         const extension = this.getFileExtension(file);
         const fileDestination = this.instructions.path + `/${this.instructions.name}${extension}`;
+
+        if (extension.includes('component.ts')) {
+          fileContents = this.updateComponentFileContents(fileContents as string);
+        }
     
         await this.fileSys.writeFile(fileDestination, fileContents);
       } catch(e) {
         console.log(e);
       } 
-  
-      // readfile 
-      // write to new location with file name passed in by user
     });
+
+    console.log('Complete!');
   }
 }
